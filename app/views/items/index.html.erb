@@ -1,0 +1,44 @@
+<%- model_class = Item -%> <!-- Helper used for the title of the page and creating the table -->
+<div class="page-header">
+  <h1><%=t '.title', :default => "Ryan's To-do " + model_class.model_name.human.pluralize.titleize %></h1>
+</div>
+
+<%= form_for @new_item, url: { action: "create" } do |f| %>  
+  <%= f.label "Description" %>
+  <%= f.text_field :description %>
+  <%= f.label "Priority" %>
+  <%= f.check_box :priority %>
+  <%= f.submit "Add Item", class: 'btn-mini btn-primary' %>
+<% end %>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th><%= model_class.human_attribute_name(:completed) %></th>
+      <th><%= model_class.human_attribute_name(:description) %></th>
+      <th><%= model_class.human_attribute_name(:priority) %></th>
+      <th><%= model_class.human_attribute_name(:created_at) %></th>
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= form_tag items_complete_path, :method => :post do %>
+      <% @items.each do |i| %>
+        <tr>
+          <td><%= check_box_tag "item_checkbox[]", i.id %></td>
+          <td><%= i.description %></td>
+          <td><%=  "!" if i.priority %></td>
+          <td><%=l i.created_at %></td>
+          <td>
+            <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                        item_path(i),
+                        :method => :delete,
+                        :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                        :class => 'btn btn-mini btn-danger' %>
+          </td>
+        </tr>
+      <% end %> <!-- End of items loop -->
+  </tbody>
+</table>
+    <%= submit_tag "Complete To-do's", :class => "btn btn-success" %> <!-- This sends the "item_checkbox" array populated with item id's of those that were checked to the completed action of the items_controller -->
+    <% end %> <!-- End of form_tag -->
