@@ -3,9 +3,6 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.1'
 
-# Use sqlite3 as the database for Active Record
-gem 'sqlite3'
-
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
 
@@ -47,6 +44,8 @@ group :development, :test do
   gem 'timecop' 		# Functionality for testing things with time stamps
   gem 'simplecov' 		# Adds Coverage folder to your main directory and opens html file with list of what has been tested and what still needs to be tested
   gem 'capybara'
+  # Use sqlite3 as the database for Active Record
+	gem 'sqlite3'
 end
 
 # Update for Heroku 
